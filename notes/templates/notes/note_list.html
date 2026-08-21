@@ -1,0 +1,362 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | Notes App</title>
+
+    <link rel="stylesheet" href="{% static 'notes/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">📝</div>
+                <span>Notes App</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="{% url 'note_list' %}" class="nav-item active">
+                    <span>🏠</span>
+                    Dashboard
+                </a>
+
+                <a href="{% url 'note_list' %}" class="nav-item">
+                    <span>📝</span>
+                    My Notes
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span>⭐</span>
+                    Favorites
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <a href="#" class="nav-item">
+                    <span>⚙️</span>
+                    Settings
+                </a>
+
+                <div class="sidebar-footer">
+                    <span class="status-dot"></span>
+                    Notes App v1.0
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Top Bar -->
+            <header class="topbar">
+
+                <div class="mobile-brand">
+                    📝 Notes App
+                </div>
+
+                <!-- Search -->
+                <div class="search-box">
+                    <span>🔍</span>
+
+                    <input
+                        type="text"
+                        id="noteSearch"
+                        placeholder="Search your notes..."
+                        onkeyup="searchNotes()"
+                    >
+                </div>
+
+                <!-- Profile -->
+                <div class="profile">
+
+                    <div class="profile-avatar">
+                        U
+                    </div>
+
+                    <div class="profile-info">
+                        <strong>User</strong>
+                        <small>My Workspace</small>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- Dashboard -->
+            <section class="dashboard">
+
+                <!-- Welcome -->
+                <div class="welcome-section">
+
+                    <div>
+
+                        <p class="welcome-label">
+                            WELCOME BACK 👋
+                        </p>
+
+                        <h1>
+                            Organize your thoughts.
+                        </h1>
+
+                        <p class="welcome-text">
+                            Create, manage and keep your important
+                            ideas in one place.
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'note_create' %}"
+                        class="create-button">
+                        + New Note
+                    </a>
+
+                </div>
+
+
+                <!-- Statistics -->
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon blue">
+                            📝
+                        </div>
+
+                        <div>
+                            <span>Total Notes</span>
+
+                            <strong>
+                                {{ notes|length }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon green">
+                            📅
+                        </div>
+
+                        <div>
+                            <span>Your Workspace</span>
+
+                            <strong>
+                                Active
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon orange">
+                            ✨
+                        </div>
+
+                        <div>
+                            <span>Quick Action</span>
+
+                            <strong>
+                                Create
+                            </strong>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Notes Header -->
+                <div class="notes-header">
+
+                    <div>
+
+                        <h2>
+                            My Notes
+                        </h2>
+
+                        <p>
+                            Your latest thoughts and ideas
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="{% url 'note_create' %}"
+                        class="secondary-button">
+                        + Create Note
+                    </a>
+
+                </div>
+
+
+                <!-- Notes -->
+                {% if notes %}
+
+                    <div class="professional-notes-grid">
+
+                        {% for note in notes %}
+
+                            <article class="professional-note-card note-item">
+
+                                <div class="note-card-top">
+
+                                    <span class="note-badge">
+                                        NOTE
+                                    </span>
+
+                                    <div class="note-menu">
+                                        •••
+                                    </div>
+
+                                </div>
+
+
+                                <h3>
+                                    {{ note.title }}
+                                </h3>
+
+
+                                <p class="professional-note-content">
+                                    {{ note.content|truncatechars:160 }}
+                                </p>
+
+
+                                <div class="note-card-footer">
+
+                                    <span class="created-date">
+                                        {{ note.created_at|date:"d M Y" }}
+                                    </span>
+
+
+                                    <div class="card-actions">
+
+                                        <a
+                                            href="{% url 'note_edit' note.pk %}"
+                                            class="edit-link">
+                                            Edit
+                                        </a>
+
+                                        <a
+                                            href="{% url 'note_delete' note.pk %}"
+                                            class="delete-link">
+                                            Delete
+                                        </a>
+
+                                    </div>
+
+                                </div>
+
+                            </article>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <!-- Empty State -->
+                    <div class="professional-empty">
+
+                        <div class="empty-icon">
+                            📝
+                        </div>
+
+                        <h2>
+                            No notes yet
+                        </h2>
+
+                        <p>
+                            Start organizing your thoughts by
+                            creating your first note.
+                        </p>
+
+                        <a
+                            href="{% url 'note_create' %}"
+                            class="create-button">
+                            + Create Your First Note
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+    <!-- Search Function -->
+    <script>
+
+        function searchNotes() {
+
+            const searchInput = document
+                .getElementById("noteSearch")
+                .value
+                .toLowerCase()
+                .trim();
+
+            const notes = document.querySelectorAll(".note-item");
+
+
+            notes.forEach(function(note) {
+
+                const title = note
+                    .querySelector("h3")
+                    .textContent
+                    .toLowerCase();
+
+                const content = note
+                    .querySelector(".professional-note-content")
+                    .textContent
+                    .toLowerCase();
+
+
+                if (
+                    title.includes(searchInput) ||
+                    content.includes(searchInput)
+                ) {
+
+                    note.style.display = "";
+
+                } else {
+
+                    note.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+
+</html>

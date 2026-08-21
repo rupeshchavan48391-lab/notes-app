@@ -1,0 +1,194 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Note | Notes App</title>
+
+    <link rel="stylesheet" href="{% static 'notes/css/style.css' %}">
+</head>
+
+<body>
+
+    <div class="app-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">📝</div>
+                <span>Notes App</span>
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <a href="{% url 'note_list' %}" class="nav-item">
+                    <span>🏠</span>
+                    Dashboard
+                </a>
+
+                <a href="{% url 'note_list' %}" class="nav-item">
+                    <span>📝</span>
+                    My Notes
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span>⭐</span>
+                    Favorites
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <a href="#" class="nav-item">
+                    <span>⚙️</span>
+                    Settings
+                </a>
+
+                <div class="sidebar-footer">
+                    <span class="status-dot"></span>
+                    Notes App v1.0
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Top Bar -->
+            <header class="topbar">
+
+                <div class="mobile-brand">
+                    📝 Notes App
+                </div>
+
+                <div class="profile">
+
+                    <div class="profile-avatar">
+                        U
+                    </div>
+
+                    <div class="profile-info">
+                        <strong>User</strong>
+                        <small>My Workspace</small>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <!-- Create Note -->
+            <section class="dashboard">
+
+                <div class="form-page-header">
+
+                    <div>
+                        <p class="welcome-label">
+                            NEW NOTE
+                        </p>
+
+                        <h1>
+                            Create a new note
+                        </h1>
+
+                        <p class="welcome-text">
+                            Capture your ideas, tasks and important thoughts.
+                        </p>
+                    </div>
+
+                    <a
+                        href="{% url 'note_list' %}"
+                        class="secondary-button">
+                        ← Back to Notes
+                    </a>
+
+                </div>
+
+
+                <div class="professional-form-card">
+
+                    <form method="POST">
+
+                        {% csrf_token %}
+
+
+                        <div class="form-section">
+
+                            <label for="title">
+                                Note Title
+                            </label>
+
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                placeholder="Give your note a title..."
+                                required
+                                autofocus
+                            >
+
+                        </div>
+
+
+                        <div class="form-section">
+
+                            <label for="content">
+                                Note Content
+                            </label>
+
+                            <textarea
+                                id="content"
+                                name="content"
+                                placeholder="Start writing your thoughts..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-footer">
+
+                            <span class="form-tip">
+                                💡 Keep your notes clear and organized.
+                            </span>
+
+                            <div class="form-actions">
+
+                                <a
+                                    href="{% url 'note_list' %}"
+                                    class="cancel-button">
+                                    Cancel
+                                </a>
+
+                                <button
+                                    type="submit"
+                                    class="create-button">
+                                    Save Note
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
