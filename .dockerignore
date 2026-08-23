@@ -1,0 +1,8 @@
+.dockerignore
+.gitignore
+db.sqlite3
+manage.py
+notes/
+notesproject/
+requirements.txt
+venv/
