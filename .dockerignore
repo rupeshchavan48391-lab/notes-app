@@ -1,8 +1,10 @@
-.dockerignore
-.gitignore
-db.sqlite3
-manage.py
-notes/
-notesproject/
-requirements.txt
 venv/
+.git/
+.gitignore
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+*.log
+db.sqlite3
