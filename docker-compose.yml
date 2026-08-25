@@ -1,0 +1,29 @@
+services:
+
+  web:
+    build: .
+    container_name: notes-app-web
+    command: gunicorn --bind 0.0.0.0:8000 notesproject.wsgi:application
+    env_file:
+      - .env
+    volumes:
+      - ./db.sqlite3:/app/db.sqlite3
+      - ./staticfiles:/app/staticfiles
+    networks:
+      - notes-network
+
+  nginx:
+    build: ./nginx
+    container_name: notes-app-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./staticfiles:/app/staticfiles:ro
+    depends_on:
+      - web
+    networks:
+      - notes-network
+
+networks:
+  notes-network:
+    driver: bridge
