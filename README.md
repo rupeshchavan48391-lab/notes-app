@@ -48,7 +48,7 @@ Kubernetes Configuration
         ↓
 Jenkins CI/CD
 
-🚀 Project Highlights
+##🚀 Project Highlights
 🐍 Django web application
 🐳 Docker containerization
 🔗 Docker Compose multi-container deployment
