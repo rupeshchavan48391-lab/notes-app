@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = 'rupeshh7/notes-app:latest'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -12,25 +16,39 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t rupeshh7/notes-app:latest .'
+                sh 'docker build -t $IMAGE_NAME .'
             }
         }
 
-        stage('Test') {
+        stage('Test Django') {
             steps {
-                sh 'docker run --rm rupeshh7/notes-app:latest python manage.py check'
+                sh 'docker run --rm $IMAGE_NAME python manage.py check'
             }
         }
 
         stage('Push to Docker Hub') {
             steps {
-                echo 'Docker Hub push will be configured with Jenkins credentials'
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds',
+                        usernameVariable: 'DOCKER_USERNAME',
+                        passwordVariable: 'DOCKER_PASSWORD'
+                    )
+                ]) {
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login \
+                            -u "$DOCKER_USERNAME" \
+                            --password-stdin
+
+                        docker push $IMAGE_NAME
+                    '''
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deployment stage will be configured next'
+                echo 'Deployment will be configured next'
             }
         }
     }
